@@ -1,0 +1,16 @@
+{
+    "name": "n0fu7ur3/parser",
+    "description": "-",
+    "type": "library",
+    "require": {
+        "coderockr/php-query": "dev-master"
+    },
+    "license": "-",
+    "authors": [
+        {
+            "name": "n0fu7ur3",
+            "email": "shaurmidze@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev"
+}
