@@ -65,6 +65,8 @@ namespace Parser {
         }
 
         /**
+         * Запрос данных
+         *
          * @param string $url URL запроса
          * @return string HTML страница
          */
@@ -73,11 +75,35 @@ namespace Parser {
             $proxy = $this->proxer->newProxy();
         }
 
+        /**
+         * Парсим категорию
+         * Получаем пагинатор $this->pages()
+         *      если пагинатора нет - в массиве будет 1 ссылка, на текущую страницу
+         *      если пагинатор есть - в массиве будут ссылки,
+         * @param string $selector
+         * @param string $paginatorSelector
+         */
+        private function parseCategory(string $selector, string $paginatorSelector)
+        {
+            $pages = $this->pages();
+            foreach ($pages as $page) {
+                $this->parseParse($page);
+            }
+        }
+
+        private function pages()
+        {
+
+        }
+
         /***********************public*********************/
         public function start()
         {
             try {
                 $this->categories("selector");
+                foreach ($this->categories as $category) {
+                    $this->parseCategory("selector");
+                }
             } catch (Exception $exception) {
             }
         }

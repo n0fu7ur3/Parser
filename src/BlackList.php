@@ -26,7 +26,7 @@ class BlackList
     public function add(ListNode $node): void
     {
         $this->checkList();
-        if (!$this->lockTime[$node->data()]) {
+        if (!array_key_exists($node->data(), $this->list)) {
             $this->list[$node->data()] = $node;
         }
     }

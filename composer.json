@@ -3,7 +3,8 @@
     "description": "-",
     "type": "library",
     "require": {
-        "coderockr/php-query": "dev-master"
+        "coderockr/php-query": "dev-master",
+      "ext-curl": "*"
     },
     "license": "-",
     "authors": [

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "e08b8fe7bdfdf992fbf94b0da2dec323",
+    "content-hash": "d98e75787e4dfd4f83390f725aef53cc",
     "packages": [
         {
             "name": "coderockr/php-query",
@@ -64,6 +64,8 @@
     },
     "prefer-stable": false,
     "prefer-lowest": false,
-    "platform": [],
+    "platform": {
+        "ext-curl": "*"
+    },
     "platform-dev": []
 }
