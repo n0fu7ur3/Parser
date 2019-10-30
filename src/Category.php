@@ -1,7 +1,5 @@
 <?php
 
-namespace Parser;
-
 use Exception;
 
 /**

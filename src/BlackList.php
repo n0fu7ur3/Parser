@@ -1,10 +1,5 @@
 <?php
 
-namespace Parser;
-
-use DateTime;
-use Exception;
-
 /**
  * Черный список
  *
@@ -45,6 +40,7 @@ class BlackList
      */
     public function has(string $data)
     {
+        $this->checkList();
         return array_key_exists($data, $this->list);
     }
 

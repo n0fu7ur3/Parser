@@ -1,9 +1,5 @@
 <?php
 
-namespace Loger;
-
-use Exception;
-
 /**
  * Логер
  *
@@ -45,6 +41,6 @@ class Loger
     public function log(string $message): void
     {
         $timeStamp = date("d.m.y H:i:s");
-        fwrite($this->fd, "$timeStamp: $message");
+        fwrite($this->fd, "[$timeStamp]: $message\n");
     }
 }
