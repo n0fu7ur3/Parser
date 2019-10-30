@@ -5,6 +5,12 @@ namespace Parser;
 use DateTime;
 use Exception;
 
+/**
+ * Черный список
+ *
+ * Class BlackList
+ * @package Parser
+ */
 class BlackList
 {
     private $list;
@@ -26,16 +32,20 @@ class BlackList
     public function add(ListNode $node): void
     {
         $this->checkList();
-        if (!array_key_exists($node->data(), $this->list)) {
+        if (!$this->has($node->data())) {
             $this->list[$node->data()] = $node;
         }
     }
 
+    /**
+     * Существование ключа
+     *
+     * @param string $data данные(ключ)
+     * @return bool
+     */
     public function has(string $data)
     {
-        if (array_key_exists($data, $this->list)) {
-            return true;
-        }
+        return array_key_exists($data, $this->list);
     }
 
     /**
@@ -62,6 +72,12 @@ class BlackList
     }
 }
 
+/**
+ * Элемент черного списка
+ *
+ * Class ListNode
+ * @package Parser
+ */
 class ListNode
 {
     private $data;

@@ -4,6 +4,12 @@ namespace Parser;
 
 use Exception;
 
+/**
+ * Категория
+ *
+ * Class Category
+ * @package Parser
+ */
 class Category
 {
     private $name;
