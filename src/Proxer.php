@@ -5,19 +5,29 @@ namespace Parser {
     class Proxer
     {
         private $blackList;
-        private $site;
 
-        public function __construct(string $site)
+        /**
+         * Proxer constructor.
+         */
+        public function __construct()
         {
             $this->blackList = new BlackList();
-            $this->site = $site;
         }
 
-
-        public function proxy(): string
+        /**
+         * Получение новой прокси
+         *
+         * @return array
+         */
+        public function newProxy(): array
         {
-            $proxy = '';
+            $proxy = ['addr' => '', 'type' => ''];
             return $proxy;
+        }
+
+        private function proxySite(): string
+        {
+            return "https://free-proxy-list.net/";
         }
 
         private function banProxy(string $proxy): void
@@ -27,7 +37,7 @@ namespace Parser {
 
         private function request()
         {
-            $ch = curl_init($this->site);
+            $ch = curl_init($this->proxySite());
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
             curl_setopt(

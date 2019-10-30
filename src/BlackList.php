@@ -12,7 +12,7 @@ class BlackList
 
     /**
      * BlackList constructor.
-     * @param int $lockTime время в минутах, через которое данные будут удалены из черного списка
+     * @param int $lockTime время в минутах, через которое данные будут удалены из черного списка, 0 - не удалять
      */
     public function __construct(int $lockTime = 5)
     {
@@ -31,6 +31,13 @@ class BlackList
         }
     }
 
+    public function has(string $data)
+    {
+        if (array_key_exists($data, $this->list)) {
+            return true;
+        }
+    }
+
     /**
      * @param ListNode $node
      */
@@ -44,10 +51,12 @@ class BlackList
      */
     private function checkList(): void
     {
-        $timestamp = new DateTime();
-        foreach ($this->list as $key => $node) {
-            if (($timestamp->diff($node->timestamp())->i) >= $this->lockTime) {
-                $this->remove($node);
+        if ($this->lockTime !== 0) {
+            $timestamp = new DateTime();
+            foreach ($this->list as $key => $node) {
+                if (($timestamp->diff($node->timestamp())->i) >= $this->lockTime) {
+                    $this->remove($node);
+                }
             }
         }
     }
