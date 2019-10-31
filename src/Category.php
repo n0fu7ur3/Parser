@@ -14,7 +14,7 @@ class Category
      *
      * @param string $name имя категории
      * @param string $imgURL URL картинки категории
-     * @param string $href $ссылка категории
+     * @param string $href ссылка категории
      * @throws Exception
      */
     public function __construct(

@@ -15,8 +15,6 @@
   ],
   "autoload": {
     "psr-4": {
-      "Proxer\\": "src/",
-      "Loger\\": "src/"
     }
   },
   "minimum-stability": "dev"
