@@ -50,15 +50,22 @@ class Parser
      * Получение списка категорий
      *
      * @param string $selector селектор категорий
+     * @param string $childrenSelector селектор потомков контейнера категорий
      * @throws Exception
-     * @example $this->categories("#main > div.menu");
+     * @example $this->categories("#main > div.menu", "div.children");
      */
-    private function categories(string $selector): void
+    private function categories(string $selector, string $childrenSelector): void
     {
         $html = $this->proxer->request($this->config['url']);
         $doc = phpQuery::newDocument($html);
-        $categories = [];
-        $this->categories = $categories;
+        $categories = pq($selector)->children($childrenSelector);
+        foreach ($categories as $category) {
+            $categoryName = '';
+            $categoryImg = '';
+            $categoryHref = '';
+            $cat = new Category($categoryName, $categoryImg, $categoryHref);
+            $this->categories[] = $cat;
+        }
         phpQuery::unloadDocuments($doc);
     }
 
@@ -123,7 +130,7 @@ class Parser
     public function start()
     {
         try {
-            $this->categories("selector");
+            $this->categories("selector", "children selector");
             foreach ($this->categories as $category) {
                 $this->parseCategory("selector");
             }

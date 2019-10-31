@@ -11,6 +11,7 @@ class Category
 
     /**
      * Category constructor.
+     *
      * @param string $name имя категории
      * @param string $imgURL URL картинки категории
      * @param string $href $ссылка категории
@@ -26,7 +27,7 @@ class Category
         $this->imgURL = trim($imgURL);
         $this->href = trim($href);
 
-        $this->check(
+        $this->prepare(
             [
                 $this->name,
                 $this->imgURL,
@@ -36,40 +37,33 @@ class Category
     }
 
     /**
-     * Проверка полей на пустоту
+     * Подготовка данных
      *
-     * @param array $values
+     * @param array $values данные
      * @throws Exception
      */
-    private function check(array $values): void
+    private function prepare(array $values): void
     {
         foreach ($values as $value) {
             if (empty($value)) {
                 $properties = implode("\n", $values);
                 throw new Exception("Какое-то свойство в категории пусто\nСвойства:\n$properties");
             }
+            $value = preg_replace('/\s+/', ' ', $value);
         }
     }
 
-    private function processing(array $values): void
-    {
-
-    }
-
-    public
-    function name(): string
+    public function name(): string
     {
         return $this->name;
     }
 
-    public
-    function imgURL(): string
+    public function imgURL(): string
     {
         return $this->imgURL;
     }
 
-    public
-    function href(): string
+    public function href(): string
     {
         return $this->href;
     }
