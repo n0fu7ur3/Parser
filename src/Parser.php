@@ -2,17 +2,15 @@
 
 /**
  * Парсер товаров
- *
- * Class Parser
- * @package Parser
  */
 class Parser
 {
     private $loger;
     private $proxer;
     private $config;
-    private $categories;
     private $pathToConfig;
+
+    private $categories;
 
     /**
      * Parser constructor.
@@ -81,9 +79,42 @@ class Parser
     }
 
     /**
-     * Возвращает список страниц
+     * Возвращает список ссылок на страницы, если пагинатора нет - в списке одна страница
+     *
+     * @param string $paginatorSelector селектор пагинатора
+     * @param string $childrenSelector селектор потомков пагинатора
+     * @param string $textSelector селектор текса потомка пагинатора
+     * @param string $url URL страницы, на который ищем, необходим для формирования ссылок
+     * @param string $glue чем склеиваем URL и номер страницы
+     * @return array
      */
-    private function pages()
+    private function pages(
+        string $paginatorSelector,
+        string $childrenSelector,
+        string $textSelector,
+        string $url,
+        string $glue = '/page/'
+    ): array
+    {
+        $pages = [];
+        $paginator = pq($paginatorSelector)->children($childrenSelector);
+        if (!$paginator->length) {
+            return [$url];
+        }
+        foreach ($paginator as $child) {
+            $child = pq($child);
+            $pageNumber = $child->find(($textSelector));
+            if (is_numeric($pageNumber)) {
+                $pages[] = $url . $glue . $pageNumber;
+            }
+        }
+        return $pages;
+    }
+
+    /**
+     * Парсим страницу
+     */
+    private function parsePage()
     {
 
     }

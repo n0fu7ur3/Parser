@@ -1,12 +1,7 @@
 <?php
 
-use Exception;
-
 /**
- * Категория
- *
- * Class Category
- * @package Parser
+ * Категория товара
  */
 class Category
 {
@@ -30,6 +25,7 @@ class Category
         $this->name = trim($name);
         $this->imgURL = trim($imgURL);
         $this->href = trim($href);
+
         $this->check(
             [
                 $this->name,
@@ -55,17 +51,25 @@ class Category
         }
     }
 
-    public function name(): string
+    private function processing(array $values): void
+    {
+
+    }
+
+    public
+    function name(): string
     {
         return $this->name;
     }
 
-    public function imgURL(): string
+    public
+    function imgURL(): string
     {
         return $this->imgURL;
     }
 
-    public function href(): string
+    public
+    function href(): string
     {
         return $this->href;
     }
