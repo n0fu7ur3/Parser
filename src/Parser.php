@@ -7,6 +7,11 @@ class Parser
 {
     private $loger;
     private $proxer;
+    /**
+     * @var array $config
+     *
+     * ['siteUrl']
+     */
     private $config;
     private $pathToConfig;
 
@@ -24,16 +29,22 @@ class Parser
         $this->proxer = new Proxer();
         $this->loger = new Loger('prsr.log');
         $this->pathToConfig = $pathToConfig;
-        $this->config = $this->readConfig($pathToConfig);
+        $this->readConfig();
+        $this->loger->log("Object created");
     }
 
     /***********************private*********************/
     /**
      * Запись конфига
      */
-    private function writeConfig(): void
+    public function writeConfig(): void
     {
+        $this->loger->log("Write config");
         $fd = fopen($this->pathToConfig, 'w');
+        $data = [
+            'siteUrl' => $this->config['siteUrl']
+        ];
+        fwrite($fd, json_encode($data));
         fclose($fd);
     }
 
@@ -42,6 +53,7 @@ class Parser
      */
     private function readConfig(): void
     {
+        $this->loger->log("Read config");
         $jsonConfig = file_get_contents($this->pathToConfig);
         $this->config = json_decode($jsonConfig, true);
     }
@@ -51,14 +63,23 @@ class Parser
      *
      * @param string $selector селектор категорий
      * @param string $childrenSelector селектор потомков контейнера категорий
+     * @return array
      * @throws Exception
      * @example $this->categories("#main > div.menu", "div.children");
      */
-    private function categories(string $selector, string $childrenSelector): void
+    public function categories(string $selector, string $childrenSelector): array
     {
-        $html = $this->proxer->request($this->config['url']);
+        $url = $this->config['siteUrl'];
+        $this->loger->log("Looking for categories on $url");
+        $html = $this->proxer->request($url);
         $doc = phpQuery::newDocument($html);
-        $categories = pq($selector)->children($childrenSelector);
+        $categories = pq($selector);//->children($childrenSelector);
+        echo "cats:" . $categories;
+        foreach ($categories as $category) {
+            echo "cat:" . pq($category) . "\n";
+        }
+        $this->loger->log("Categories: $categories");
+        return $categories;
         foreach ($categories as $category) {
             $categoryName = '';
             $categoryImg = '';
@@ -123,7 +144,7 @@ class Parser
      */
     private function parsePage()
     {
-
+        echo "asd\n";
     }
 
     /***********************public*********************/
@@ -131,6 +152,7 @@ class Parser
     {
         try {
             $this->categories("selector", "children selector");
+
             foreach ($this->categories as $category) {
                 $this->parseCategory("selector");
             }

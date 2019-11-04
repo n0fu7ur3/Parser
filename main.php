@@ -6,5 +6,6 @@ spl_autoload_register(function ($class_name) {
     include "src/" . $class_name . '.php';
 });
 
-$proxer = new Proxer();
-var_dump($proxer->request('ya.ru'));
+$parser = new Parser();
+$cats = $parser->categories('a.melu_l1', 'span');
+echo $cats;

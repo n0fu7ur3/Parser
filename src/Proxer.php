@@ -38,7 +38,7 @@ class Proxer
      */
     private function proxy(): array
     {
-        $this->loger->log("Получаем новую прокси");
+        $this->loger->log("Get new proxy");
         $html = file_get_contents($this->proxySite());
         $doc = phpQuery::newDocument($html);
         $tableRows = $doc->find("#proxylisttable > tbody")->children('tr');
@@ -48,7 +48,8 @@ class Proxer
             $data = explode("\n", $tds->text());
             $ip = $data[0];
             $port = $data[1];
-            if ($this->checkProxy($ip . $port)) {
+            if ($this->checkProxy($ip . ":" . $port)) {
+                $this->loger->log("Proxy: $ip:$port is in the black list, skip");
                 continue;
             }
             $proxyType = CURLPROXY_HTTP;
@@ -108,6 +109,7 @@ class Proxer
      */
     public function request(string $url)
     {
+        $this->validateURL($url);
         $this->loger->log("шлём запрос на $url");
         do {
             $proxy = $this->proxy();
@@ -137,6 +139,19 @@ class Proxer
         } while ($html == false);
         curl_close($ch);
         return $html;
+    }
+
+    /**
+     * Проверка URL
+     *
+     * @param string $url
+     * @throws Exception
+     */
+    private function validateURL(string $url)
+    {
+        if (!filter_var($url, FILTER_VALIDATE_URL)) {
+            throw new Exception("Некорректная URL: $url\n");
+        }
     }
 
     /**
